@@ -1,0 +1,3 @@
+This folder contains GRB Files from the Fermi GBM Cataloge at:
+
+https://heasarc.gsfc.nasa.gov/FTP/fermi/data/gbm/bursts/
