@@ -16,7 +16,8 @@ import requests
 class GBM_scraper:
     def pull(file_name):
         #get trig_number
-        trig_number = file_name.split("bn")[1].split("_v")
+        trig_number = file_name.split("bn")[1].split("_v")[0]
+        n_num = file_name.split("_n")[1].split("_b")[0]
         
         tte = GbmTte.open(file_name)
         fermi = tte.trigtime
@@ -25,15 +26,22 @@ class GBM_scraper:
         trig = fermi_met.value
 
         bin_width = 0.5
-        energy_sliced_tte = tte.slice_energy((8, 260.0))
+        try:
+            energy_sliced_tte = tte.slice_energy((8, 260.0))
+        except:
+            return {"Trig Number": "NA", "Trig Time": "NA", "Low met": "NA", "Max": "NA", "Back50": "NA", "Back100": "NA", "Back250": "NA", "Var50": "NA", "Var100": "NA", "Var250": "NA"}
+
         sliced_phaii = energy_sliced_tte.to_phaii(bin_by_time, bin_width, time_ref=0.0)
 
         lcplot = Lightcurve(data=sliced_phaii.to_lightcurve())
         plt.xlim(-10,30)
+        plt.savefig("data/n"+n_num+"/gbm_zoom_"+trig_number+"at"+n_num+".png")
         #save
         
         lcplot_two = Lightcurve(data=sliced_phaii.to_lightcurve())
+        plt.savefig("data/n"+n_num+"/gbm_wide_"+trig_number+"at"+n_num+".png")
         #save
+        plt.close("all")
         
         time_counts = sliced_phaii.columns_as_array(2, ["TIME"])
         sliced_counts_prime = sliced_phaii.columns_as_array(2, ["COUNTS"])
@@ -57,7 +65,7 @@ class GBM_scraper:
         back100=sliced_counts[100:]
         back250=sliced_counts[250:]
 
-        result = {"Trig Number": trig_number, "Trig Time": trig, "Low met": low_met, "Low trig": low_trig, "Max": max[0], "Back50": np.average(back50), "Var50": np.std(back50), "Back100": np.average(back100), "Var100": np.std(back100), "Back250": np.average(back250), "Var250": np.std(back250)}
+        result = {"Trig Number": trig_number, "Trig Time": trig, "Low met": low_met, "Low trig": low_trig[0], "Max": max[0], "Back50": np.average(back50), "Var50": np.std(back50), "Back100": np.average(back100), "Var100": np.std(back100), "Back250": np.average(back250), "Var250": np.std(back250)}
 
         return result
 
@@ -78,18 +86,17 @@ class LAT_scraper:
             for i in range(0, max_len):
                 if conversion_y[i] > max:
                     if conversion_y[i] < max_cap:
-                        max_count = conversion_y[i]
-                        max_time = conversion_x[i]
+                        str(max_count = conversion_y[i])
+                        str(max_time = conversion_x[i])
             high_lat[i] = {"Max Time": max_time, "Max Energy": max_count}
             max_cap = max_count - 0.001
 
-        return high_lat
+        return high_lat.tolist()
 
 class red_scraper:
-    def pull(GRB_name):
-        r = requests.get("https://icecube.wisc.edu/~grbweb_public/GRBweb2.sqlite")
-        f = open('GRBweb2.sqlite', 'wb').write(r.content)
-        db = sqlite3.connect('GRBweb2.sqlite')
+    def pull(GRB_name, database):
+        print(str(GRB_name))
+        db = database
 
         Sum_table = pandas.read_sql_query("SELECT * from Summary", db)
         Sum_table = Sum_table.sort_values("GRB_name")
@@ -98,7 +105,7 @@ class red_scraper:
         row_indices, col_indices = indices[0], indices[1]
 
         index = Sum_table.iloc[row_indices].to_numpy()[0][0] - 1
-        redshift = Sum_table.iloc[row_indices].redshift.get(index)
+        redshift = str(Sum_table.iloc[row_indices].redshift.get(index))
         red_source = str(Sum_table.iloc[row_indices].redshift_source.get("Name"))
         name = str(Sum_table.iloc[row_indices].GRB_name.get(index))
         
