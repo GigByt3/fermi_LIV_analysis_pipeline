@@ -10,14 +10,44 @@ import matplotlib.pyplot as plt
 import sqlite3
 import pandas
 import requests
+import statistics
 
+'''
+save_array format:
+
+trig_num:
+{
+(for GBM)
+time_array: [#,#,#...]      ==totalled sliced counts across all detectors
+time_values: [#,#,#...]     ==time values corresponding to above
+detectors: [0,4,9...]       ==detector names
+det_ct: 4                   ==number of detectors
+low_t: #                    ==time of max counts (met)
+low_ct: #                   ==max counts num
+background: #               ==background counts (outside of T_90 designation)
+background_var: #           ==background counts (outside of T_90 designation)
+significance: #             ==(max_ct-background)/background_var
+half_max_t: #               ==half maximum width for error counting
+
+(for LAT)
+lat_highs: [[t, E]...]      ==lat highs over 80% highest reading
+
+(general)
+redshift: #                 ==redshift source
+redshift_src: "foo"         ==source ("def_GCN" (default GCN) if not available)
+trig: #                   ==trigger time
+name: "GRB###..."           ==general GRB name with letter code
+}
+'''
 
 #recieves the filepath of a GBM File, Returns Analysis of that file.
 class GBM_scraper:
-    def pull(file_name):
+    #Here save_array... does things....
+    def pull(file_name, save_array, db, new):
         #get trig_number
         trig_number = file_name.split("bn")[1].split("_v")[0]
         n_num = file_name.split("_n")[1].split("_b")[0]
+        working_save = save_array[trig_number]
         
         tte = GbmTte.open(file_name)
         fermi = tte.trigtime
@@ -25,52 +55,63 @@ class GBM_scraper:
         fermi_met.iso
         trig = fermi_met.value
 
+        save_array[trig_number]["detectors"].append(n_num)
+        save_array[trig_number]["det_ct"] = working_save["det_ct"] + 1
+
         bin_width = 0.5
         try:
             energy_sliced_tte = tte.slice_energy((8, 260.0))
         except:
-            return {"Trig Number": "NA", "Trig Time": "NA", "Low met": "NA", "Max": "NA", "Back50": "NA", "Back100": "NA", "Back250": "NA", "Var50": "NA", "Var100": "NA", "Var250": "NA"}
+            return save_array
 
         sliced_phaii = energy_sliced_tte.to_phaii(bin_by_time, bin_width, time_ref=0.0)
-
-        lcplot = Lightcurve(data=sliced_phaii.to_lightcurve())
-        plt.xlim(-10,30)
-        plt.savefig("data/n"+n_num+"/gbm_zoom_"+trig_number+"at"+n_num+".png")
-        #save
-        
-        lcplot_two = Lightcurve(data=sliced_phaii.to_lightcurve())
-        plt.savefig("data/n"+n_num+"/gbm_wide_"+trig_number+"at"+n_num+".png")
-        #save
-        plt.close("all")
         
         time_counts = sliced_phaii.columns_as_array(2, ["TIME"])
         sliced_counts_prime = sliced_phaii.columns_as_array(2, ["COUNTS"])
-        sliced_counts = np.zeros(len(sliced_counts_prime[0]))
+
+        #incorperate new data
+        if new:
+            sliced_counts = np.zeros(len(sliced_counts_prime[0]))
+        else:
+            sliced_counts = working_save["time_array"]
+
         for i in range(0, len(sliced_counts_prime)):
             for j in range(0, len(sliced_counts_prime[i])):
-                sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j]
-        max = [0,0]
-        for i in range(0, len(sliced_counts)):
-            if sliced_counts[i] > max[0]:
-                max[0] = sliced_counts[i]
-                max[1] = time_counts[i]
+                sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
 
-        low_met = max[1][0]
-        #low energy time MET
+        save_array[trig_number]["time_values"] = time_counts
+        save_array[trig_number]["time_array"] = sliced_counts
+        
+        if save_array[trig_number]["det_ct"] == 10:
+            #Get low_t and low_ct
+            max = [0,0]
+            for i in range(0, len(sliced_counts)):
+                if sliced_counts[i] > max[0]:
+                    max[0] = sliced_counts[i]
+                    max[1] = time_counts[i]
+            save_array[trig_number]["low_t"] = max[1][0]
+            #low energy time MET
+            save_array[trig_number]["low_ct"] = max[0][0]
+            save_array[trig_number]["trig"] = trig.astype(float)
 
-        low_trig = max[1].astype(float) - trig.astype(float)
-        #low energy time TRIG
+            lowfifty = -100
+            highfifty = -100
+            up = False
+            for i in range(0, len(sliced_counts)):
+                if sliced_counts[i] > 0.5*max[0]:
+                    up = True
+                    if lowfifty == -100:
+                        lowfifty = time_counts[i]
+                
+                if sliced_counts[i] < 0.5*max[0] & up:
+                    highfifty = time_counts[i]
+            
+            save_array[trig_number]["half_max_t"] = highfifty - lowfifty
 
-        back50=sliced_counts[50:]
-        back100=sliced_counts[100:]
-        back250=sliced_counts[250:]
-
-        result = {"Trig Number": trig_number, "Trig Time": trig, "Low met": low_met, "Low trig": low_trig[0], "Max": max[0], "Back50": np.average(back50), "Var50": np.std(back50), "Back100": np.average(back100), "Var100": np.std(back100), "Back250": np.average(back250), "Var250": np.std(back250)}
-
-        return result
+        return save_array
 
 class LAT_scraper:
-    def pull(file_name):
+    def pull(file_name, save_array, db):
         conversion_x = []
         conversion_y = []
         for i in range(0, len(data)):
@@ -93,10 +134,11 @@ class LAT_scraper:
 
         return high_lat.tolist()
 
-class red_scraper:
-    def pull(GRB_name, database):
+class redback_scraper:
+    def pull(name, save_array, db):
         print(str(GRB_name))
-        db = database
+
+        GRB_name = save_array[name]["name"]
 
         Sum_table = pandas.read_sql_query("SELECT * from Summary", db)
         Sum_table = Sum_table.sort_values("GRB_name")
@@ -108,5 +150,20 @@ class red_scraper:
         redshift = str(Sum_table.iloc[row_indices].redshift.get(index))
         red_source = str(Sum_table.iloc[row_indices].redshift_source.get("Name"))
         name = str(Sum_table.iloc[row_indices].GRB_name.get(index))
+
+        teetop = str(Sum_table.iloc[row_indices].T100.get(index))
+        times = save_array[name]["time_values"]
+        background = []
+        for i in range(0, len(times)):
+            if times[i] < save_array[name]["trig"]-10:
+                background.append(save_array[name]["time_array"][i])
+            if times[i] > teetop + 10:
+                background.append(save_array[name]["time_array"][i])
         
-        return {"Name": name, "Redshift": redshift, "Redshift Source": red_source}
+        save_array[name]["background"] = statistics.mean(background)
+        save_array[name]["background_var"] = statistics.stdev(background)
+        save_array[name]["significance"] = (save_array[name]["max_ct"]-statistics.mean(background))/statistics.stdev(background)
+
+        save_array[name]["name"] = str(Sum_table.iloc[row_indices].GRB_name.get(index))
+
+        return save_array
