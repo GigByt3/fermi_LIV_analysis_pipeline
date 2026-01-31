@@ -72,11 +72,13 @@ class GBM_scraper:
         #incorperate new data
         if new:
             sliced_counts = np.zeros(len(sliced_counts_prime[0]))
+            print("New array " + trig_number + " of length: " + len(sliced_counts_prime[0]))
         else:
             sliced_counts = working_save["time_array"]
+            print("Modifying array " + trig_number + " of length: " + len(sliced_counts))
 
-        for i in range(0, len(sliced_counts_prime)-1):
-            for j in range(0, len(sliced_counts_prime[i])-1):
+        for i in range(0, len(sliced_counts_prime)):
+            for j in range(0, len(sliced_counts_prime[i])):
                 sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
 
         save_array[trig_number]["time_values"] = time_counts
