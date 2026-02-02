@@ -56,12 +56,12 @@ name: "GRB###..."
 
 save_array = {}
 
-print("Check One")
+print("Initialisation Done")
 
 for name in gbm_files:
-    print("Check Two")
+    print("Checking " + str(name))
     if '_bn' in name:
-        print("Check Three")
+        print("Found File")
         trig_number = name.split("bn")[1].split("_v")[0]
         n_num = name.split("_n")[1].split("_b")[0]
         file_ref = gbm_dir_name + name
