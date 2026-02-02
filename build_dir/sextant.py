@@ -69,10 +69,10 @@ for name in gbm_files:
         new = True
 
         if trig_number in save_array:
-            print("Trigger Number " + str(trig_number) + " is in Save Array.")
+            sys.stdout.write("Trigger Number " + str(trig_number) + " is in Save Array. \n")
             new = False
         else:
-            print("Adding " + str(trig_number) + " to Save Array.")
+            sys.stdout.write("Adding " + str(trig_number) + " to Save Array. \n")
             save_array[trig_number] = {
                 "time_array": [],
                 "time_values": [],
@@ -91,10 +91,11 @@ for name in gbm_files:
                 "name": "GRB" + trig_number
             }
 
+        sys.stdout.write("getting a result- \n")
         result = atlas.GBM_scraper.pull(file_ref, save_array, db, new)
 
-        print("Time Array has Length " + str(len(save_array[trig_number]["time_array"])))
-        sys.stdout.write("stop.")
+        sys.stdout.write("Time Array has Length " + str(len(save_array[trig_number]["time_array"])) + "\n")
+        sys.stdout.write("stop. \n")
 
         save_array = result
 

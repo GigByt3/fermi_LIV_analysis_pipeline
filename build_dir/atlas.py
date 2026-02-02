@@ -11,6 +11,7 @@ import sqlite3
 import pandas
 import requests
 import statistics
+import sys
 
 '''
 save_array format:
@@ -62,7 +63,7 @@ class GBM_scraper:
         try:
             energy_sliced_tte = tte.slice_energy((8, 260.0))
         except:
-            print("Analysis Failure.")
+            sys.stdout.write("Analysis Failure. \n")
             return save_array
 
         sliced_phaii = energy_sliced_tte.to_phaii(bin_by_time, bin_width, time_ref=0.0)
@@ -73,16 +74,16 @@ class GBM_scraper:
         #incorperate new data
         if new:
             sliced_counts = np.zeros(len(sliced_counts_prime[0]))
-            print("New array " + str(trig_number) + " of length: " + str(len(sliced_counts_prime[0])))
+            sys.stdout.write("New array " + str(trig_number) + " of length: " + str(len(sliced_counts_prime[0])) + "\n")
         else:
             sliced_counts = working_save["time_array"]
-            print("Modifying array " + str(trig_number) + " of length: " + str(len(sliced_counts)))
+            sys.stdout.write("Modifying array " + str(trig_number) + " of length: " + str(len(sliced_counts)) +"\n")
 
         for i in range(0, len(sliced_counts_prime)-1):
             for j in range(0, len(sliced_counts_prime[i])-1):
                 sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
 
-        print("Sliced Counts.")
+        sys.stdout.write("Sliced Counts. \n")
 
         save_array[trig_number]["time_values"] = time_counts
         save_array[trig_number]["time_array"] = sliced_counts
@@ -113,7 +114,7 @@ class GBM_scraper:
             
             save_array[trig_number]["half_max_t"] = highfifty - lowfifty
 
-        print("Returning Save Array.")
+        sys.stdout.write("Returning Save Array. \n")
 
         return save_array
 
