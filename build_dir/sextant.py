@@ -56,16 +56,22 @@ name: "GRB###..."
 
 save_array = {}
 
+print("Check One")
+
 for name in gbm_files:
+    print("Check Two")
     if '_bn' in name:
+        print("Check Three")
         trig_number = name.split("bn")[1].split("_v")[0]
         n_num = name.split("_n")[1].split("_b")[0]
         file_ref = gbm_dir_name + name
         new = True
 
         if trig_number in save_array:
+            print("Trigger Number " + str(trig_number) + " is in Save Array.")
             new = False
         else:
+            print("Adding " + str(trig_number) + " to Save Array.")
             save_array[trig_number] = {
                 "time_array": [],
                 "time_values": [],
