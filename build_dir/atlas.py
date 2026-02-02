@@ -81,6 +81,8 @@ class GBM_scraper:
             for j in range(0, len(sliced_counts_prime[i])-1):
                 sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
 
+        print("Sliced Counts.")
+
         save_array[trig_number]["time_values"] = time_counts
         save_array[trig_number]["time_array"] = sliced_counts
         
@@ -109,6 +111,8 @@ class GBM_scraper:
                     highfifty = time_counts[i]
             
             save_array[trig_number]["half_max_t"] = highfifty - lowfifty
+
+        print("Returning Save Array.")
 
         return save_array
 
