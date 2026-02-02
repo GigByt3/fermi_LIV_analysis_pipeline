@@ -57,12 +57,12 @@ name: "GRB###..."
 
 save_array = {}
 
-sys.stdout.write("Init-")
+sys.stdout.write("Init- \n")
 
 for name in gbm_files:
-    sys.stdout.write("Checking File: " + str(name))
+    sys.stdout.write("Checking File: " + str(name) + ".\n")
     if '_bn' in name:
-        sys.stdout.write("Analyzing-")
+        sys.stdout.write("Analyzing- \n")
         trig_number = name.split("bn")[1].split("_v")[0]
         n_num = name.split("_n")[1].split("_b")[0]
         file_ref = gbm_dir_name + name
