@@ -77,8 +77,8 @@ class GBM_scraper:
             sliced_counts = working_save["time_array"]
             print("Modifying array " + str(trig_number) + " of length: " + str(len(sliced_counts)))
 
-        for i in range(0, len(sliced_counts_prime)):
-            for j in range(0, len(sliced_counts_prime[i])):
+        for i in range(0, len(sliced_counts_prime)-1):
+            for j in range(0, len(sliced_counts_prime[i])-1):
                 sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
 
         save_array[trig_number]["time_values"] = time_counts
