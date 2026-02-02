@@ -92,7 +92,10 @@ for name in gbm_files:
             }
 
         result = atlas.GBM_scraper.pull(file_ref, save_array, db, new)
+
         print("Time Array has Length " + str(len(save_array[trig_number]["time_array"])))
+        sys.stdout.write("stop.")
+
         save_array = result
 
 for name in lat_files:
