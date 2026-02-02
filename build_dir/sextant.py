@@ -13,6 +13,7 @@ import requests
 import atlas
 import json
 import os
+import sys
 
 json_object = {}
 
@@ -56,12 +57,12 @@ name: "GRB###..."
 
 save_array = {}
 
-print("Initialisation Done")
+sys.stdout.write("Init-")
 
 for name in gbm_files:
-    print("Checking " + str(name))
+    sys.stdout.write("Checking File: " + str(name))
     if '_bn' in name:
-        print("Found File")
+        sys.stdout.write("Analyzing-")
         trig_number = name.split("bn")[1].split("_v")[0]
         n_num = name.split("_n")[1].split("_b")[0]
         file_ref = gbm_dir_name + name
