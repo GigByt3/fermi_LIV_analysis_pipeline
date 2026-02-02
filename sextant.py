@@ -64,8 +64,10 @@ for name in gbm_files:
         new = True
 
         if trig_number in save_array:
+            print("Trigger Number " + str(trig_number) + " is in Save Array.")
             new = False
         else:
+            print("Adding " + str(trig_number) + " to Save Array.")
             save_array[trig_number] = {
                 "time_array": [],
                 "time_values": [],
