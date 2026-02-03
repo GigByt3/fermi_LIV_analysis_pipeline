@@ -100,7 +100,11 @@ for name in gbm_files:
         sys.stdout.write("Time Array has Length " + str(len(save_array[trig_number]["time_array"])) + "\n")
         sys.stdout.write("stop. \n")
 
-        save_array = result
+        try:
+            save_array = result
+        except Exception as e:
+            traceback.print_exc()
+            sys.stdout.write("\n")
 
 for name in lat_files:
     if '_PH00' in name:
