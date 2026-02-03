@@ -63,7 +63,7 @@ class GBM_scraper:
         try:
             energy_sliced_tte = tte.slice_energy((8, 260.0))
         except:
-            sys.stdout.write("Analysis Failure. \n")
+            energy_sliced_tte = tte
             return save_array
 
         sliced_phaii = energy_sliced_tte.to_phaii(bin_by_time, bin_width, time_ref=0.0)
