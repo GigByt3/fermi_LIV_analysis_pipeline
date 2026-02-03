@@ -69,8 +69,11 @@ for name in gbm_files:
         new = True
 
         if trig_number in save_array:
+            if len(save_array[trig_number]["time_array"]) == 0:
+                new = True
+            else:
+                new = False
             sys.stdout.write("Trigger Number " + str(trig_number) + " is in Save Array. \n")
-            new = False
         else:
             sys.stdout.write("Adding " + str(trig_number) + " to Save Array. \n")
             save_array[trig_number] = {
