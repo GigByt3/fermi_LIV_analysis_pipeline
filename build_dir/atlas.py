@@ -12,6 +12,7 @@ import pandas
 import requests
 import statistics
 import sys
+import traceback
 
 '''
 save_array format:
@@ -84,7 +85,7 @@ class GBM_scraper:
                 for j in range(0, len(sliced_counts_prime[i])-1):
                     sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
         except Exception as e:
-            sys.stdout.write(e)
+            traceback.print_exc()
             sys.stdout.write("\n")
 
 
