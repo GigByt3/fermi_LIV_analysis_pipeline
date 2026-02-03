@@ -79,9 +79,14 @@ class GBM_scraper:
             sliced_counts = working_save["time_array"]
             sys.stdout.write("Modifying array " + str(trig_number) + " of length: " + str(len(sliced_counts)) +"\n")
 
-        for i in range(0, len(sliced_counts_prime)-1):
-            for j in range(0, len(sliced_counts_prime[i])-1):
-                sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
+        try:
+            for i in range(0, len(sliced_counts_prime)-1):
+                for j in range(0, len(sliced_counts_prime[i])-1):
+                    sliced_counts[j] = sliced_counts[j] + sliced_counts_prime[i][j][0]
+        except Exception as e:
+            sys.stdout.write(e)
+            sys.stdout.write("\n")
+
 
         sys.stdout.write("Sliced Counts. \n")
 
