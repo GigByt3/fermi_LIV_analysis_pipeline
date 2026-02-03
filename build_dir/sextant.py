@@ -100,11 +100,14 @@ for name in gbm_files:
         sys.stdout.write("Time Array has Length " + str(len(save_array[trig_number]["time_array"])) + "\n")
         sys.stdout.write("stop. \n")
 
-        try:
-            save_array = result
-        except Exception as e:
-            traceback.print_exc()
-            sys.stdout.write("\n")
+        save_array = result
+
+print(save_array)
+
+json_str = json.dumps(save_array, indent=4)
+
+with open("data/grb_analysis.json", "w") as f:
+    f.write(json_str)
 
 for name in lat_files:
     if '_PH00' in name:
