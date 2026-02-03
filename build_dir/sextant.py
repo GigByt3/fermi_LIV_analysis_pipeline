@@ -13,6 +13,7 @@ import requests
 import atlas
 import json
 import os
+import traceback
 import sys
 
 json_object = {}
@@ -104,10 +105,18 @@ for name in gbm_files:
 
 print(save_array)
 
-json_str = json.dumps(save_array, indent=4)
+try:
+    json_str = json.dumps(save_array, indent=4)
+except Exception as e:
+    traceback.print_exc()
+    sys.stdout.write("\n")
 
-with open("data/grb_analysis.json", "w") as f:
-    f.write(json_str)
+try:
+    with open("data/grb_analysis.json", "w") as f:
+        f.write(json_str)
+except Exception as e:
+    traceback.print_exc()
+    sys.stdout.write("\n")
 
 for name in lat_files:
     if '_PH00' in name:

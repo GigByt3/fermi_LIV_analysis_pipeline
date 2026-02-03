@@ -94,7 +94,7 @@ class GBM_scraper:
         save_array[trig_number]["time_values"] = time_counts
         save_array[trig_number]["time_array"] = sliced_counts
         
-        if save_array[trig_number]["det_ct"] == 10:
+        if save_array[trig_number]["det_ct"] == 12:
             #Get low_t and low_ct
             max = [0,0]
             for i in range(0, len(sliced_counts)):
