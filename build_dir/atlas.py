@@ -101,15 +101,20 @@ class GBM_scraper:
                 if sliced_counts[i] > max[0]:
                     max[0] = sliced_counts[i]
                     max[1] = time_counts[i]
-            save_array[trig_number]["low_t"] = max[1][0]
-            #low energy time MET
-            save_array[trig_number]["low_ct"] = max[0][0]
-            save_array[trig_number]["trig"] = trig.astype(float)
+            
+            try:
+                save_array[trig_number]["low_t"] = max[1][0]
+                #low energy time MET
+                save_array[trig_number]["low_ct"] = max[0][0]
+                save_array[trig_number]["trig"] = trig.astype(float)
+            except Exception as e:
+                traceback.print_exc()
+                sys.stdout.write("\n")
 
             lowfifty = -100
             highfifty = -100
             up = False
-            for i in range(0, len(sliced_counts)):
+            for i in range(0, len(sliced_counts)-1):
                 if sliced_counts[i] > 0.5*max[0]:
                     up = True
                     if lowfifty == -100:
