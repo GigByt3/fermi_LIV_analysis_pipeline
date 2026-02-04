@@ -155,7 +155,6 @@ class LAT_scraper:
 
 class redback_scraper:
     def pull(name, save_array, db):
-        print(str(GRB_name))
 
         sys.stdout.write("Reading Out Redshift \n")
 
