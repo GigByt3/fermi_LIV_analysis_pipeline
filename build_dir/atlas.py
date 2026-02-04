@@ -194,7 +194,7 @@ class redback_scraper:
         lowfifty = -100
         highfifty = -100
         half_mark = 0.5*(save_array[name]["low_ct"]-save_array[name]["background"])
-        print(str(half_mark), flush=True)
+        print("The Half Mark is: " + str(half_mark), flush=True)
         up = False
         for i in range(0, len(sliced_counts)-1):
             if sliced_counts[i] > half_mark:
@@ -204,6 +204,9 @@ class redback_scraper:
             
             if sliced_counts[i] < half_mark and up:
                 highfifty = time_counts[i]
+
+        print("The Low Mark is: " + str(lowfifty), flush=True)
+        print("The Last Mark is: " + str(highfifty), flush=True)
         
         if highfifty == -100:
             highfifty = time_counts[len(sliced_counts)-1]
