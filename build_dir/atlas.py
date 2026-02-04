@@ -194,7 +194,7 @@ class redback_scraper:
                     print("Fail Post")
                     traceback.print_exc()
                     sys.stdout.write("\n")
-            if times[i] > (save_array[name]["trig"]+teetop + 10):
+            if times[i] > (save_array[name]["trig"]+np.array([teetop]).astype("float64")[0] + 10):
                 try:
                     background.append(save_array[name]["time_array"][i])
                 except Exception as e:
