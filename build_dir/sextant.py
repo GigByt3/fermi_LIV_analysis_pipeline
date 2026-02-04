@@ -95,8 +95,12 @@ for name in gbm_files:
                 "name": "GRB" + trig_number
             }
 
+        exclude = ["170817529"]
         sys.stdout.write("getting a result- \n")
-        result = atlas.GBM_scraper.pull(file_ref, save_array, db, new)
+        if file_ref in exclude:
+            print("Fail Print: " + str(file_ref))
+        else:
+            result = atlas.GBM_scraper.pull(file_ref, save_array, db, new)
 
         sys.stdout.write("Time Array has Length " + str(len(save_array[trig_number]["time_array"])) + "\n")
         sys.stdout.write("stop. \n")
