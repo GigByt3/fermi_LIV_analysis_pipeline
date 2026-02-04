@@ -28,7 +28,7 @@ low_t: #                    ==time of max counts (met)
 low_ct: #                   ==max counts num
 background: #               ==background counts (outside of T_90 designation)
 background_var: #           ==background counts (outside of T_90 designation)
-significance: #             ==(max_ct-background)/background_var
+significance: #             ==(low_ct-background)/background_var
 half_max_t: #               ==half maximum width for error counting
 
 (for LAT)
@@ -200,7 +200,7 @@ class redback_scraper:
 
         save_array[name]["background"] = statistics.mean(background)
         save_array[name]["background_var"] = statistics.stdev(background)
-        save_array[name]["significance"] = (save_array[name]["max_ct"]-statistics.mean(background))/statistics.stdev(background)
+        save_array[name]["significance"] = (save_array[name]["low_ct"]-statistics.mean(background))/statistics.stdev(background)
 
         save_array[name]["name"] = str(Sum_table.iloc[row_indices].GRB_name.get(index))
 

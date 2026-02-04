@@ -43,7 +43,7 @@ low_t: #                    ==time of max counts (met)
 low_ct: #                   ==max counts num
 background: #               ==background counts (outside of T_90 designation)
 background_var: #           ==background counts (outside of T_90 designation)
-significance: #             ==(max_ct-background)/background_var
+significance: #             ==(low_ct-background)/background_var
 half_max_t: #               ==half maximum width for error counting
 
 (for LAT)
