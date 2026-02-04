@@ -118,12 +118,12 @@ except Exception as e:
     traceback.print_exc()
     sys.stdout.write("\n")
 
-for name in lat_files:
-    if '_PH00' in name:
-        trig_number = name.split("GRB")[1].split("_P")[0]
-        n_num = name.split("_n")[1].split("_b")[0]
-        result = atlas.LAT_scraper.pull(file_ref, save_array, db)
-        save_array = result
+#for name in lat_files:
+    #if '_PH00' in name:
+        #trig_number = name.split("GRB")[1].split("_P")[0]
+        #n_num = name.split("_n")[1].split("_b")[0]
+        #result = atlas.LAT_scraper.pull(file_ref, save_array, db)
+        #save_array = result
 
 for name in save_array:
     result = atlas.redback_scraper.pull(name, save_array, db)
