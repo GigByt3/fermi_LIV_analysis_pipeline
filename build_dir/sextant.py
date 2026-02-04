@@ -126,6 +126,7 @@ except Exception as e:
         #save_array = result
 
 for name in save_array:
+    print(name)
     result = atlas.redback_scraper.pull(name, save_array, db)
     save_array = result
 
