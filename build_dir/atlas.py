@@ -178,7 +178,10 @@ class redback_scraper:
         teetop = str(Sum_table.iloc[row_indices].T100.get(index))
         times = save_array[name]["time_values"]
         background = []
-        for i in range(0, len(times)):
+
+        sys.stdout.write("Check Three \n")
+
+        for i in range(0, len(times)-1):
             if times[i] < save_array[name]["trig"]-10:
                 try:
                     background.append(save_array[name]["time_array"][i])
@@ -192,7 +195,7 @@ class redback_scraper:
                     traceback.print_exc()
                     sys.stdout.write("\n")
         
-        sys.stdout.write("Check Three \n")
+        sys.stdout.write("Check Four \n")
 
         save_array[name]["background"] = statistics.mean(background)
         save_array[name]["background_var"] = statistics.stdev(background)
