@@ -160,6 +160,8 @@ class redback_scraper:
 
         GRB_name = save_array[name]["name"]
 
+        sys.stdout.write(name + " has name: " + GRB_name)
+
         Sum_table = pandas.read_sql_query("SELECT * from Summary", db)
         Sum_table = Sum_table.sort_values("GRB_name")
         indices = np.where(Sum_table == GRB_name)
@@ -169,8 +171,8 @@ class redback_scraper:
         sys.stdout.write("Check One \n")
 
         index = Sum_table.iloc[row_indices].to_numpy()[0][0] - 1
-        redshift = str(Sum_table.iloc[row_indices].redshift.get(index))
-        red_source = str(Sum_table.iloc[row_indices].redshift_source.get("Name"))
+        save_array[name]["redshift"] = str(Sum_table.iloc[row_indices].redshift.get(index))
+        save_array[name]["redshift_src"] = str(Sum_table.iloc[row_indices].redshift_source.get("Name"))
 
         sys.stdout.write("Check Two \n")
 
