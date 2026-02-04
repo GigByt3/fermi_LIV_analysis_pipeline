@@ -157,6 +157,8 @@ class redback_scraper:
     def pull(name, save_array, db):
         print(str(GRB_name))
 
+        sys.stdout.write("Reading Out Redshift \n")
+
         GRB_name = save_array[name]["name"]
 
         Sum_table = pandas.read_sql_query("SELECT * from Summary", db)
