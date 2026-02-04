@@ -181,8 +181,8 @@ class redback_scraper:
         times = save_array[name]["time_values"]
         background = []
 
-        print("Top is " +str(teetop))
-        print("Top is " +str(teetop))
+        print("Top is " +str(teetop), flush=True)
+        print("Top is " +str(teetop), flush=True)
 
         sys.stdout.write("Check Three \n")
 
@@ -192,17 +192,15 @@ class redback_scraper:
             elif times[i] > (save_array[name]["trig"]+np.array([teetop]).astype("float64")[0] + 10):
                 background.append(save_array[name]["time_array"][i])
             else:
-                print("Signal Spot")
+                print("Signal Spot", flush=True)
         
-        print("Background Length: " + str(len(background)))
+        print("Background Length: " + str(len(background)), flush=True)
 
-        
         sys.stdout.write("Check Four \n")
 
         save_array[name]["background"] = statistics.mean(background)
         save_array[name]["background_var"] = statistics.stdev(background)
-        if len(background) != 0:
-            save_array[name]["significance"] = (save_array[name]["max_ct"]-statistics.mean(background))/statistics.stdev(background)
+        save_array[name]["significance"] = (save_array[name]["max_ct"]-statistics.mean(background))/statistics.stdev(background)
 
         save_array[name]["name"] = str(Sum_table.iloc[row_indices].GRB_name.get(index))
 

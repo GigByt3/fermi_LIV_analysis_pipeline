@@ -111,11 +111,11 @@ for name in gbm_files:
         #save_array = result
 
 for name in save_array:
-    print(name)
+    print(name, flush=True)
     result = atlas.redback_scraper.pull(name, save_array, db)
     save_array = result
 
-print(save_array)
+print(save_array, flush=True)
 
 try:
     json_str = json.dumps(save_array, indent=4)
@@ -129,10 +129,3 @@ try:
 except Exception as e:
     traceback.print_exc()
     sys.stdout.write("\n")
-
-save_array["time"]
-
-json_str = json.dumps(save_array, indent=4)
-
-with open("data/grb_analysis.json", "w") as f:
-    f.write(json_str)
