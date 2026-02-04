@@ -114,7 +114,7 @@ for name in save_array:
     print(name, flush=True)
     result = atlas.redback_scraper.pull(name, save_array, db)
     result[name]["time_array"] = result[name]["time_array"].tolist()
-    result[name]["time_value"] = result[name]["time_value"].tolist()
+    result[name]["time_values"] = result[name]["time_values"].tolist()
     result[name]["half_max_t"] = result[name]["half_max_t"][0]
     save_array = result
 
