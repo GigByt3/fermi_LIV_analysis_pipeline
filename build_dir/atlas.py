@@ -193,7 +193,7 @@ class redback_scraper:
 
         lowfifty = -100
         highfifty = -100
-        half_mark = 0.5*(save_array[name]["low_ct"]-save_array[name]["background"])
+        half_mark = 0.5*(save_array[name]["low_ct"]-save_array[name]["background"])+save_array[name]["background"]
         print("The Half Mark is: " + str(half_mark), flush=True)
         up = False
         for i in range(0, len(sliced_counts)-1):
