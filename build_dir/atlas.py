@@ -188,26 +188,21 @@ class redback_scraper:
 
         for i in range(0, len(times)-1):
             if times[i] < (save_array[name]["trig"]-10):
-                try:
-                    background.append(save_array[name]["time_array"][i])
-                except Exception as e:
-                    print("Fail Post")
-                    traceback.print_exc()
-                    sys.stdout.write("\n")
-            if times[i] > (save_array[name]["trig"]+np.array([teetop]).astype("float64")[0] + 10):
-                try:
-                    background.append(save_array[name]["time_array"][i])
-                except Exception as e:
-                    print("Fail Post")
-                    traceback.print_exc()
-                    sys.stdout.write("\n")
+                background.append(save_array[name]["time_array"][i])
+            elif times[i] > (save_array[name]["trig"]+np.array([teetop]).astype("float64")[0] + 10):
+                background.append(save_array[name]["time_array"][i])
+            else:
+                print("Signal Spot")
+        
+        print("Background Length: " + str(len(background)))
 
         
         sys.stdout.write("Check Four \n")
 
         save_array[name]["background"] = statistics.mean(background)
         save_array[name]["background_var"] = statistics.stdev(background)
-        save_array[name]["significance"] = (save_array[name]["max_ct"]-statistics.mean(background))/statistics.stdev(background)
+        if len(background) != 0:
+            save_array[name]["significance"] = (save_array[name]["max_ct"]-statistics.mean(background))/statistics.stdev(background)
 
         save_array[name]["name"] = str(Sum_table.iloc[row_indices].GRB_name.get(index))
 
