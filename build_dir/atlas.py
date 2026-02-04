@@ -203,7 +203,9 @@ class redback_scraper:
                     lowfifty = time_counts[i]
             
             if sliced_counts[i] < half_mark and up:
+                print("Setting High at " + str(highfifty))
                 highfifty = time_counts[i]
+                up = False
 
         print("The Low Mark is: " + str(lowfifty), flush=True)
         print("The Last Mark is: " + str(highfifty), flush=True)
