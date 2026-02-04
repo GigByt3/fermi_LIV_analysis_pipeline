@@ -111,22 +111,6 @@ class GBM_scraper:
                 traceback.print_exc()
                 sys.stdout.write("\n")
 
-            lowfifty = -100
-            highfifty = -100
-            up = False
-            for i in range(0, len(sliced_counts)-1):
-                if sliced_counts[i] > 0.5*max[0]:
-                    up = True
-                    if lowfifty == -100:
-                        lowfifty = time_counts[i]
-                
-                if sliced_counts[i] < 0.5*max[0] and up:
-                    highfifty = time_counts[i]
-            
-            if highfifty == -100:
-                highfifty = time_counts[len(sliced_counts)-1]
-            save_array[trig_number]["half_max_t"] = highfifty - lowfifty
-
         sys.stdout.write("Returning Save Array. \n")
 
         return save_array
@@ -203,6 +187,26 @@ class redback_scraper:
         save_array[name]["background"] = statistics.mean(background)
         save_array[name]["background_var"] = statistics.stdev(background)
         save_array[name]["significance"] = (save_array[name]["low_ct"]-statistics.mean(background))/statistics.stdev(background)
+
+        sliced_counts = save_array[name]["time_array"]
+        time_counts = save_array[name]["time_values"]
+
+        lowfifty = -100
+        highfifty = -100
+        half_mark = 0.5*(save_array[name]["low_ct"]-save_array[name]["background"])
+        up = False
+        for i in range(0, len(sliced_counts)-1):
+            if sliced_counts[i] > half_mark:
+                up = True
+                if lowfifty == -100:
+                    lowfifty = time_counts[i]
+            
+            if sliced_counts[i] < half_mark and up:
+                highfifty = time_counts[i]
+        
+        if highfifty == -100:
+            highfifty = time_counts[len(sliced_counts)-1]
+        save_array[name]["half_max_t"] = highfifty - lowfifty
 
         save_array[name]["name"] = str(Sum_table.iloc[row_indices].GRB_name.get(index))
 
