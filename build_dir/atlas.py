@@ -105,7 +105,7 @@ class GBM_scraper:
             try:
                 save_array[trig_number]["low_t"] = max[1][0]
                 #low energy time MET
-                save_array[trig_number]["low_ct"] = max[0][0]
+                save_array[trig_number]["low_ct"] = max[0]
                 save_array[trig_number]["trig"] = trig.astype(float)
             except Exception as e:
                 traceback.print_exc()
