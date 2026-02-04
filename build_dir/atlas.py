@@ -174,13 +174,9 @@ class redback_scraper:
 
         sys.stdout.write("Check Two \n")
 
-        try:
-            teetop = str(Sum_table.iloc[row_indices].T100.get(index))
-            times = save_array[name]["time_values"]
-            background = []
-        except Exception as e:
-            traceback.print_exc()
-            sys.stdout.write("\n")
+        teetop = str(Sum_table.iloc[row_indices].T100.get(index))
+        times = save_array[name]["time_values"]
+        background = []
 
         sys.stdout.write("Check Three \n")
 
