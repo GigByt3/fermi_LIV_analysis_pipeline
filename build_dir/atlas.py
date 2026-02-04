@@ -186,17 +186,9 @@ class redback_scraper:
 
         for i in range(0, len(times)-1):
             if times[i] < save_array[name]["trig"]-10:
-                try:
-                    background.append(save_array[name]["time_array"][i])
-                except Exception as e:
-                    traceback.print_exc()
-                    sys.stdout.write("\n")
+                background.append(save_array[name]["time_array"][i])
             if times[i] > teetop + 10:
-                try:
-                    background.append(save_array[name]["time_array"][i])
-                except Exception as e:
-                    traceback.print_exc()
-                    sys.stdout.write("\n")
+                background.append(save_array[name]["time_array"][i])
         
         sys.stdout.write("Check Four \n")
 
