@@ -166,10 +166,14 @@ class redback_scraper:
         # Extracting row and column indices
         row_indices, col_indices = indices[0], indices[1]
 
+        sys.stdout.write("Check One \n")
+
         index = Sum_table.iloc[row_indices].to_numpy()[0][0] - 1
         redshift = str(Sum_table.iloc[row_indices].redshift.get(index))
         red_source = str(Sum_table.iloc[row_indices].redshift_source.get("Name"))
         name = str(Sum_table.iloc[row_indices].GRB_name.get(index))
+
+        sys.stdout.write("Check Two \n")
 
         teetop = str(Sum_table.iloc[row_indices].T100.get(index))
         times = save_array[name]["time_values"]
@@ -180,6 +184,8 @@ class redback_scraper:
             if times[i] > teetop + 10:
                 background.append(save_array[name]["time_array"][i])
         
+        sys.stdout.write("Check Three \n")
+
         save_array[name]["background"] = statistics.mean(background)
         save_array[name]["background_var"] = statistics.stdev(background)
         save_array[name]["significance"] = (save_array[name]["max_ct"]-statistics.mean(background))/statistics.stdev(background)
