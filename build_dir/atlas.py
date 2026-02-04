@@ -171,7 +171,6 @@ class redback_scraper:
         index = Sum_table.iloc[row_indices].to_numpy()[0][0] - 1
         redshift = str(Sum_table.iloc[row_indices].redshift.get(index))
         red_source = str(Sum_table.iloc[row_indices].redshift_source.get("Name"))
-        name = str(Sum_table.iloc[row_indices].GRB_name.get(index))
 
         sys.stdout.write("Check Two \n")
 
