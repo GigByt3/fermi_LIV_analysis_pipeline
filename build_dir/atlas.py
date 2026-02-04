@@ -120,7 +120,7 @@ class GBM_scraper:
                     if lowfifty == -100:
                         lowfifty = time_counts[i]
                 
-                if sliced_counts[i] < 0.5*max[0] & up:
+                if sliced_counts[i] < 0.5*max[0] and up:
                     highfifty = time_counts[i]
             
             save_array[trig_number]["half_max_t"] = highfifty - lowfifty
