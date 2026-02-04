@@ -123,6 +123,8 @@ class GBM_scraper:
                 if sliced_counts[i] < 0.5*max[0] and up:
                     highfifty = time_counts[i]
             
+            if highfifty == -100:
+                highfifty = time_counts[len(sliced_counts)-1]
             save_array[trig_number]["half_max_t"] = highfifty - lowfifty
 
         sys.stdout.write("Returning Save Array. \n")
