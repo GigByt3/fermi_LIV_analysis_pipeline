@@ -176,17 +176,32 @@ class redback_scraper:
 
         sys.stdout.write("Check Two \n")
 
+        teetop = "Fail"
         teetop = str(Sum_table.iloc[row_indices].T100.get(index))
         times = save_array[name]["time_values"]
         background = []
+
+        print("Top is " +str(teetop))
+        print("Top is " +str(teetop))
 
         sys.stdout.write("Check Three \n")
 
         for i in range(0, len(times)-1):
             if times[i] < save_array[name]["trig"]-10:
-                background.append(save_array[name]["time_array"][i])
+                try:
+                    background.append(save_array[name]["time_array"][i])
+                except Exception as e:
+                    print("Fail Pre")
+                    traceback.print_exc()
+                    sys.stdout.write("\n")
             if times[i] > teetop + 10:
-                background.append(save_array[name]["time_array"][i])
+                try:
+                    background.append(save_array[name]["time_array"][i])
+                except Exception as e:
+                    print("Fail Post")
+                    traceback.print_exc()
+                    sys.stdout.write("\n")
+
         
         sys.stdout.write("Check Four \n")
 
