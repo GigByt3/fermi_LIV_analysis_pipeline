@@ -172,7 +172,7 @@ class redback_scraper:
 
         sys.stdout.write("Check Three \n")
 
-        for i in range(0, len(times)-1):
+        for i in range(0, len(times)-2):
             if times[i] < (save_array[name]["trig"]-10):
                 background.append(save_array[name]["time_array"][i])
             elif times[i] > (save_array[name]["trig"]+np.array([teetop]).astype("float64")[0] + 10):
