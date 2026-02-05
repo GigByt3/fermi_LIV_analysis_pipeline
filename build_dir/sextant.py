@@ -72,7 +72,7 @@ for name in gbm_files:
         exclude = ["170817529"]
         if trig_number in exclude:
             print("Fail Print: " + str(file_ref))
-            break
+            continue
 
         if trig_number in save_array:
             if len(save_array[trig_number]["time_array"]) == 0:
