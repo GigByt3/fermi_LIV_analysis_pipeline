@@ -184,9 +184,15 @@ class redback_scraper:
 
         sys.stdout.write("Check Four \n")
 
-        save_array[name]["background"] = statistics.mean(background)
-        save_array[name]["background_var"] = statistics.stdev(background)
-        save_array[name]["significance"] = (save_array[name]["low_ct"]-statistics.mean(background))/statistics.stdev(background)
+        try:
+            save_array[name]["background"] = statistics.mean(background)
+            save_array[name]["background_var"] = statistics.stdev(background)
+            save_array[name]["significance"] = (save_array[name]["low_ct"]-statistics.mean(background))/statistics.stdev(background)
+        except:
+            save_array[name]["background"] = 0
+            save_array[name]["background"] = 0
+            save_array[name]["background"] = -1
+
 
         sliced_counts = save_array[name]["time_array"]
         time_counts = save_array[name]["time_values"]
