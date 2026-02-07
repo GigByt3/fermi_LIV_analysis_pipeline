@@ -88,7 +88,6 @@ class GBM_scraper:
             traceback.print_exc()
             sys.stdout.write("\n")
 
-
         sys.stdout.write("Sliced Counts. \n")
 
         save_array[trig_number]["time_values"] = time_counts
@@ -116,14 +115,17 @@ class GBM_scraper:
         return save_array
 
 class LAT_scraper:
-    def pull(file_name, save_array, db):
+    def pull(file_name, trig_num, save_array, db):
+        hdul_image = fits.open(file_name)
+        data = hdul_image[1].data
+
         conversion_x = []
         conversion_y = []
         for i in range(0, len(data)):
             conversion_y.append(data[i][0])
             conversion_x.append(data[i][9])
 
-        high_lat = {}
+        high_lat = []
         for i in range(1, 26):
             max_cap = 100000000
             max_count = 0
@@ -136,6 +138,8 @@ class LAT_scraper:
                         str(max_time = conversion_x[i])
             high_lat[i] = {"Max Time": max_time, "Max Energy": max_count}
             max_cap = max_count - 0.001
+
+        save_array["lat_highs"]=high_lat
 
         return high_lat.tolist()
 
