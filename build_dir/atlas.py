@@ -172,11 +172,17 @@ class redback_scraper:
 
         sys.stdout.write("Check Three \n")
 
-        for i in range(0, len(times)-2):
+        for i in range(0, len(times)-1):
             if times[i] < (save_array[name]["trig"]-10):
-                background.append(save_array[name]["time_array"][i])
+                try:
+                    background.append(save_array[name]["time_array"][i])
+                except:
+                    print("Background Append Failure.")
             elif times[i] > (save_array[name]["trig"]+np.array([teetop]).astype("float64")[0] + 10):
-                background.append(save_array[name]["time_array"][i])
+                try:
+                    background.append(save_array[name]["time_array"][i])
+                except:
+                    print("Background Append Failure.")
             else:
                 print("Signal Spot", flush=True)
         
