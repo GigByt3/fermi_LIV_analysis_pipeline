@@ -119,6 +119,11 @@ class LAT_scraper:
         hdul_image = fits.open(file_name)
         data = hdul_image[1].data
 
+        if trig_num in save_array:
+            print("LAT in " + file_name + " is readable.")
+        else:
+            return save_array
+        
         conversion_x = []
         conversion_y = []
         for i in range(0, len(data)):
@@ -139,9 +144,9 @@ class LAT_scraper:
             high_lat[i] = {"Max Time": max_time, "Max Energy": max_count}
             max_cap = max_count - 0.001
 
-        save_array["lat_highs"]=high_lat
+        save_array[trig_num]["lat_highs"]=high_lat
 
-        return high_lat.tolist()
+        return save_array
 
 class redback_scraper:
     def pull(name, save_array, db):
