@@ -5,6 +5,7 @@ from gdt.core.plot.lightcurve import Lightcurve
 from gdt.missions.fermi.time import Time
 from scipy import stats
 from scipy.optimize import curve_fit
+from astropy.io import fits
 import numpy as np
 import matplotlib.pyplot as plt
 import sqlite3
@@ -116,6 +117,7 @@ class GBM_scraper:
 
 class LAT_scraper:
     def pull(file_name, trig_num, save_array, db):
+        print("Lat I")
         hdul_image = fits.open(file_name)
         data = hdul_image[1].data
 
@@ -124,12 +126,13 @@ class LAT_scraper:
         else:
             return save_array
         
+        print("Lat II")
         conversion_x = []
         conversion_y = []
         for i in range(0, len(data)):
             conversion_y.append(data[i][0])
             conversion_x.append(data[i][9])
-
+        print("Lat III")
         high_lat = []
         for i in range(1, 26):
             max_cap = 100000000
@@ -143,9 +146,9 @@ class LAT_scraper:
                         str(max_time = conversion_x[i])
             high_lat[i] = {"Max Time": max_time, "Max Energy": max_count}
             max_cap = max_count - 0.001
-
+        print("Lat IV")
         save_array[trig_num]["lat_highs"]=high_lat
-
+        print("Lat V")
         return save_array
 
 class redback_scraper:
