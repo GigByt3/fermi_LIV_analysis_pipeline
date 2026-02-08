@@ -133,23 +133,19 @@ class LAT_scraper:
             conversion_y.append(data[i][0])
             conversion_x.append(data[i][9])
         print("Lat III")
-        try:
-            high_lat = []
-            for i in range(1, 26):
-                max_cap = 100000000
-                max_count = 0
-                max_time = 0
-                max_len = int(len(conversion_y))-1
-                for i in range(0, max_len):
-                    if conversion_y[i] > max:
-                        if conversion_y[i] < max_cap:
-                            str(max_count = conversion_y[i])
-                            str(max_time = conversion_x[i])
-                high_lat[i] = {"Max Time": max_time, "Max Energy": max_count}
-                max_cap = max_count - 0.001
-        except Exception as e:
-            traceback.print_exc()
-            sys.stdout.write("\n")
+        high_lat = []
+        for i in range(1, 26):
+            max_cap = 100000000
+            max_count = 0
+            max_time = 0
+            max_len = int(len(conversion_y))-1
+            for i in range(0, max_len):
+                if conversion_y[i] > max_count:
+                    if conversion_y[i] < max_cap:
+                        str(max_count = conversion_y[i])
+                        str(max_time = conversion_x[i])
+            high_lat[i] = {"Max Time": max_time, "Max Energy": max_count}
+            max_cap = max_count - 0.001
         print("Lat IV")
         save_array[trig_num]["lat_highs"]=high_lat
         print("Lat V")
