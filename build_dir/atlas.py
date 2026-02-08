@@ -117,7 +117,6 @@ class GBM_scraper:
 
 class LAT_scraper:
     def pull(file_name, trig_num, save_array, db):
-        print("Lat I")
         hdul_image = fits.open(file_name)
         data = hdul_image[1].data
 
@@ -126,17 +125,15 @@ class LAT_scraper:
         else:
             return save_array
         
-        print("Lat II")
         conversion_x = []
         conversion_y = []
         for i in range(0, len(data)):
             conversion_y.append(data[i][0])
             conversion_x.append(data[i][9])
-        print("Lat III")
         high_lat = []
         try:
+            max_cap = 100000000
             for i in range(1, 26):
-                max_cap = 100000000
                 max_count = 0
                 max_time = 0
                 max_len = int(len(conversion_y))-1
@@ -147,12 +144,11 @@ class LAT_scraper:
                             max_time = conversion_x[i]
                 high_lat.append({"Max Time": str(max_time), "Max Energy": str(max_count)})
                 max_cap = max_count - 0.001
+                print("New Max cap is: " + max_cap)
         except Exception as e:
             traceback.print_exc()
             sys.stdout.write("\n")
-        print("Lat IV")
         save_array[trig_num]["lat_highs"]=high_lat
-        print("Lat V")
         return save_array
 
 class redback_scraper:
