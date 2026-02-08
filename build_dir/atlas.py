@@ -143,9 +143,9 @@ class LAT_scraper:
                 for i in range(0, max_len):
                     if conversion_y[i] > max_count:
                         if conversion_y[i] < max_cap:
-                            str(max_count = conversion_y[i])
-                            str(max_time = conversion_x[i])
-                high_lat[i] = {"Max Time": max_time, "Max Energy": max_count}
+                            max_count = conversion_y[i]
+                            max_time = conversion_x[i]
+                high_lat[i] = {"Max Time": str(max_time), "Max Energy": str(max_count)}
                 max_cap = max_count - 0.001
         except Exception as e:
             traceback.print_exc()
