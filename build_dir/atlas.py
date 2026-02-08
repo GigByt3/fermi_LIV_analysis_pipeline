@@ -144,7 +144,7 @@ class LAT_scraper:
                             max_time = conversion_x[i]
                 high_lat.append({"Max Time": str(max_time), "Max Energy": str(max_count)})
                 max_cap = max_count - 0.001
-                print("New Max cap is: " + max_cap)
+                print("New Max cap is: " + str(max_cap))
         except Exception as e:
             traceback.print_exc()
             sys.stdout.write("\n")
