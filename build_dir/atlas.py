@@ -127,22 +127,30 @@ class LAT_scraper:
         
         conversion_x = []
         conversion_y = []
+        conversion_r = []
+        conversion_d = []
         for i in range(0, len(data)):
             conversion_y.append(data[i][0])
             conversion_x.append(data[i][9])
+            conversion_r.append(data[i][1])
+            conversion_d.append(data[i][2])
         high_lat = []
         try:
             max_cap = 100000000
             for i in range(1, (int(len(conversion_y))-2)):
                 max_count = 0
                 max_time = 0
+                max_ra = 0
+                max_dec = 0
                 max_len = int(len(conversion_y))-1
                 for i in range(0, max_len):
                     if conversion_y[i] > max_count:
                         if conversion_y[i] < max_cap:
                             max_count = conversion_y[i]
                             max_time = conversion_x[i]
-                high_lat.append({"Max Time": str(max_time), "Max Energy": str(max_count)})
+                            max_ra = conversion_r[i]
+                            max_dec = conversion_d[i]
+                high_lat.append({"Max Time": str(max_time), "Max Energy": str(max_count), "RA": str(max_ra), "DEC": str(max_dec)})
                 max_cap = max_count - 0.001
                 print("New Max cap is: " + str(max_cap))
         except Exception as e:
