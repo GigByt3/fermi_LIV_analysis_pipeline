@@ -133,7 +133,7 @@ class LAT_scraper:
         high_lat = []
         try:
             max_cap = 100000000
-            for i in range(1, 26):
+            for i in range(1, (int(len(conversion_y))-2)):
                 max_count = 0
                 max_time = 0
                 max_len = int(len(conversion_y))-1
