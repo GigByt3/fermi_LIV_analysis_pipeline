@@ -1,0 +1,4 @@
+For LAT have nothing but line entries of the form:
+<fermi_id>-<L... query name>
+For GBM have nothing but line entries of the form:
+<fermi_id>
